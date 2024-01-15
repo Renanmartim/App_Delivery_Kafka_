@@ -19,7 +19,7 @@ public class Controller {
 
     @PostMapping
     public String send(@RequestBody Entity entity) {
-        String orderForTopic = entity.name + " ; " + entity.description + " : Send To Kitchen ";
+        String orderForTopic = entity.id + " | " + entity.name + " ; " + entity.description + " : Send To Kitchen ";
         client.sendMensage(orderForTopic);
         return "Order Dispatched";
     }

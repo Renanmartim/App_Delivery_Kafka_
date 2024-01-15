@@ -48,10 +48,12 @@ public class Client {
     @KafkaListener(topics = "kitechen_delivery_topic", groupId = "my_status_group")
     public void consumeOrderEvent(ConsumerRecord<String, String> record) {
         if (kafkaInstant) {
-            int orderId = Integer.parseInt(record.key());
-            String orderStatus = record.value();
-            orderStatusMap.put(orderId, orderStatus);
-            System.out.println("Received order event: OrderId=" + orderId + ", Status=" + orderStatus);
+            String id = record.value();
+            String[] partsid = id.split("\\|");
+            String status = record.value();
+            String[] partsstatus = status.split(":");
+            orderStatusMap.put(Integer.valueOf(partsid[0]), partsstatus[0]);
+            System.out.println("Received order event: OrderId=" + Integer.valueOf(partsid[0]) + ", Status=" + partsstatus[0]);
         }
     }
 
