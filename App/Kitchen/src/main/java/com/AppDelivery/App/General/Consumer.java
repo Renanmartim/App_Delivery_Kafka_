@@ -12,7 +12,12 @@ public class Consumer {
     @Value("${topic.kitchen_delivery}")
     public String kitechenTopic;
 
-    private KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
+
+    public Consumer(KafkaTemplate<String, Object> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
 
     @KafkaListener(topics = "kitechen_delivery_topic", groupId = "my-group-id")
     public void listen(ConsumerRecord<String, String> record) throws InterruptedException {
@@ -21,9 +26,15 @@ public class Consumer {
 
         String[] parts = message.split("\\|");
 
-        Thread.sleep(3000);
+        if (parts.length > 0 && parts[0] != null) {
 
-        sendMensage(parts[0] + " Order Ready ");
+            Thread.sleep(3000);
+
+            System.out.println(parts[0] + " Order Ready ");
+
+            sendMensage(parts[0] + " Order Ready ");
+
+        }
     }
 
     public void sendMensage(String mensage) {

@@ -7,18 +7,22 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Component;
 
-@Document
-@Data
-@Getter
-@Setter
-@Builder
+import org.springframework.stereotype.Component;
+
+import java.util.UUID;
+
+@Component
 public class Entity {
 
-    @Id
     public String id;
-
     public String name;
-
     public String description;
+
+    public Entity() {
+        this.id = UUID.randomUUID().toString();
+    }
 }
+
+

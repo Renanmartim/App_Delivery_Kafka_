@@ -9,4 +9,4 @@ topic:
   kitchen_delivery: kitechen_delivery_topic
 
 server:
-  port: 8585
+  port: 8580
