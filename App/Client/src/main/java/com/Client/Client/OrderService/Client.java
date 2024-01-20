@@ -1,5 +1,6 @@
 package com.Client.Client.OrderService;
 
+import com.Client.Client.OrderService.impl.ClienImpl;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,21 +17,16 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 @Setter
 @Data
-public class Client {
+public class Client implements ClienImpl {
 
     @Value("${topic.kitchen_delivery}")
     private String kitchenTopic;
 
-
-
     private final KafkaTemplate<String, Object> kafkaTemplate;
-
 
     public Client(KafkaTemplate<String, Object> kafkaTemplate, ConcurrentHashMap<UUID, String> orderStatusMap) {
         this.kafkaTemplate = kafkaTemplate;
     }
-
-
 
     public void sendMensage(String message) {
         kafkaTemplate.send(kitchenTopic, message);

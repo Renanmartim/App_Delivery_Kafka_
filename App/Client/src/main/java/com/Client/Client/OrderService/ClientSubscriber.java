@@ -1,5 +1,6 @@
 package com.Client.Client.OrderService;
 
+import com.Client.Client.OrderService.impl.ClientSubsCriberImpl;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class ClientSubscriber {
+public class ClientSubscriber implements ClientSubsCriberImpl {
 
     private final ConcurrentHashMap<UUID, String> orderStatusMap;
 

@@ -3,6 +3,7 @@ package com.Client.Client.Controller;
 import com.Client.Client.OrderDocument.Entity;
 import com.Client.Client.OrderService.Client;
 import com.Client.Client.OrderService.ClientSubscriber;
+import com.Client.Client.OrderService.impl.ClientSubsCriberImpl;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,11 @@ public class Controller {
 
     public Client client;
 
-    public ClientSubscriber clientSubscriber;
+    public ClientSubsCriberImpl clientSubscriberimpl;
 
-    public Controller (Client client, ClientSubscriber clientSubscriber){
+    public Controller (Client client, ClientSubsCriberImpl clientSubscriberimpl){
 
-        this.clientSubscriber = clientSubscriber;
+        this.clientSubscriberimpl = clientSubscriberimpl;
         this.client = client;
 
     }
@@ -37,7 +38,7 @@ public class Controller {
 
     @GetMapping("/status/{id}")
     public String status(@PathVariable String id) {
-        clientSubscriber.enableKafkaInstant();
-        return clientSubscriber.getOrderStatus(id);
+        clientSubscriberimpl.enableKafkaInstant();
+        return clientSubscriberimpl.getOrderStatus(id);
     }
 }
