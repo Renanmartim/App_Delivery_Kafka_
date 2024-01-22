@@ -16,6 +16,7 @@
 	<modules>
 		<module>Client</module>
 		<module>Kitchen</module>
+		<module>Delivery</module>
 	</modules>
 
 	<properties>

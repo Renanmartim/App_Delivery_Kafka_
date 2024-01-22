@@ -7,6 +7,7 @@ spring:
 
 topic:
   kitchen_delivery: kitechen_delivery_topic
+  client : client_topic
 
 
 server:

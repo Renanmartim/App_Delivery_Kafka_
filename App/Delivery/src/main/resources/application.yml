@@ -6,8 +6,9 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 topic:
-  client : client_topic
   delivery: delivery_topic
+  client : client_topic
+
 
 server:
-  port: 8580
+  port: 8589

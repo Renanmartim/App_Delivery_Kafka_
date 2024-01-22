@@ -6,7 +6,8 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 topic:
-  kitchen_delivery: kitechen_delivery_topic
+  client : client_topic
+  delivery: delivery_topic
 
 server:
   port: 8580

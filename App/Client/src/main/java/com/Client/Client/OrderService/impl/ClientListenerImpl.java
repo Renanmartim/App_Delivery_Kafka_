@@ -1,6 +1,6 @@
 package com.Client.Client.OrderService.impl;
 
-public interface ClientSubsCriberImpl {
+public interface ClientListenerImpl {
 
 
     public void enableKafkaInstant();
