@@ -1,6 +1,7 @@
 package com.Client.Client.Controller;
 
 import com.Client.Client.OrderDocument.Entity;
+import com.Client.Client.OrderService.ClientListener;
 import com.Client.Client.OrderService.ClientTemplate;
 import com.Client.Client.OrderService.impl.ClientListenerImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,7 @@ public class ClientController {
 
     public ClientTemplate client;
 
-    public ClientListenerImpl clientSubscriberimpl;
+    public ClientListener clientSubscriberimpl;
 
     public ClientController(ClientTemplate client, ClientListenerImpl clientSubscriberimpl){
 

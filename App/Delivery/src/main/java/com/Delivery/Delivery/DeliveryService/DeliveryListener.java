@@ -6,46 +6,44 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class DeliveryListener implements DeliveryListenerImpl {
 
     public DeliveryTemplateImpl deliveryTemplate;
 
-    public DeliveryListener (DeliveryTemplateImpl deliveryTemplate){
+    public DeliveryListener(DeliveryTemplateImpl deliveryTemplate) {
 
         this.deliveryTemplate = deliveryTemplate;
 
     }
 
     @KafkaListener(topics = "delivery_topic", groupId = "my-group-id-1")
-    public void listen(String recordValue) {
+    public void listen(String recordValue) throws InterruptedException {
 
         String[] parts = recordValue.split("\\|");
 
-        System.out.println(parts.length);
+        Thread.sleep(5000);
 
-        if (parts.length >= 1) {
-            // Extract order ID and status
-            System.out.println(Arrays.toString(parts));
-            String orderId = parts[0].trim();
-            String[] statusParts = parts[1].split(";");
+        String order = extractOrderId(parts[0]) + " | Delivering...";
 
-            if (statusParts.length >= 1) {
+        deliveryTemplate.sendMensage(order);
+    }
 
-                String order = orderId + " | Delivering...";
+    public String extractOrderId(String input) {
 
-                // Print the received order event
-                System.out.println(order);
+        Pattern pattern = Pattern.compile("OrderId=\\s*(.*)");
 
-                deliveryTemplate.sendMensage(order);
+        Matcher matcher = pattern.matcher(input);
 
-            } else {
-                System.out.println("Invalid message format1: " + recordValue);
-            }
-        } else {
-            System.out.println("Invalid message format2: " + recordValue);
+        if (matcher.find()) {
+
+            return matcher.group(1);
         }
+        return "UUID not found in the given example.";
+
     }
 
 }

@@ -45,10 +45,7 @@ public class KitchenListener {
 
                 String client = orderId + " | Send to Delivery";
 
-                // Print the received order event
-                System.out.println(order);
-
-                Thread.sleep(100);
+                Thread.sleep(10000);
 
                 kitchenTemplate.sendMensageDelivery(order);
 
