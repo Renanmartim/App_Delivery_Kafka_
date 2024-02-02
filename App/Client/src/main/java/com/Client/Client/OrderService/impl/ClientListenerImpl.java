@@ -1,6 +1,8 @@
 package com.Client.Client.OrderService.impl;
 
+import com.Client.Client.OrderDocument.StatusLogClientEntity;
 import com.Client.Client.OrderService.ClientListener;
+import com.Client.Client.Repository.StatusClientRepository;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,15 @@ public class ClientListenerImpl implements ClientListener {
 
     private final ConcurrentHashMap<UUID, String> orderStatusMap;
 
+    private StatusClientRepository statusClientRepository;
+
+    private StatusLogClientEntity statusLogClientEntity;
+
     private boolean kafkaInstant = true;
 
-    public ClientListenerImpl(ConcurrentHashMap<UUID, String> orderStatusMap) {
+    public ClientListenerImpl(ConcurrentHashMap<UUID, String> orderStatusMap, StatusClientRepository statusClientRepository) {
         this.orderStatusMap = orderStatusMap;
+        this.statusClientRepository = statusClientRepository;
     }
 
     public void enableKafkaInstant() {
@@ -29,7 +36,11 @@ public class ClientListenerImpl implements ClientListener {
 
             String[] parts = recordValue.split("\\|");
 
-            System.out.println(Arrays.toString(parts));
+            var eventNew = new StatusLogClientEntity(parts[0], parts[1]);
+
+            statusClientRepository.save(eventNew);
+
+            System.out.println(eventNew);
         }
     }
 

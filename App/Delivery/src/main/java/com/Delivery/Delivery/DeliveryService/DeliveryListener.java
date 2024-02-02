@@ -27,7 +27,7 @@ public class DeliveryListener implements DeliveryListenerImpl {
 
         Thread.sleep(5000);
 
-        String order = extractOrderId(parts[0]) + " | Delivering...";
+        String order = extractOrderId(parts[0]) + "|Delivering...";
 
         deliveryTemplate.sendMensage(order);
     }

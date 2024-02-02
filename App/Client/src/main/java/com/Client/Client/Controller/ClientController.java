@@ -16,7 +16,7 @@ public class ClientController {
 
     public ClientListener clientSubscriberimpl;
 
-    public ClientController(ClientTemplate client, ClientListenerImpl clientSubscriberimpl){
+    public ClientController(ClientTemplate client, ClientListener clientSubscriberimpl){
 
         this.clientSubscriberimpl = clientSubscriberimpl;
         this.client = client;
@@ -26,7 +26,7 @@ public class ClientController {
     @PostMapping
     public String send(@RequestBody Entity entity) {
         String orderForTopic = entity.id + " | " + entity.name + " ; " + entity.description + " : Send To Kitchen ";
-        String clientmensage = entity.id + "| Send to Kitchen";
+        String clientmensage = entity.id + "|Send to Kitchen";
         client.sendMensageKitchen(orderForTopic);
         client.sendMensageClient(clientmensage);
         return orderForTopic;

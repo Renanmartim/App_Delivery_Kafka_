@@ -41,9 +41,9 @@ public class KitchenListener {
 
                 String result = description.substring(0, indexOfColon);
 
-                String order = "Received order event : OrderId= " + orderId + " | Order= " + name + " ; Description= " + result;
+                String order = "Received order event : OrderId= " + orderId + "| Order= " + name + " ; Description= " + result;
 
-                String client = orderId + " | Send to Delivery";
+                String client = orderId + "|Send to Delivery";
 
                 Thread.sleep(10000);
 

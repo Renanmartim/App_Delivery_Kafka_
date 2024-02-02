@@ -1,4 +1,6 @@
-package com.Client.Client.OrderService;
+package com.Client.Client.OrderService.impl;
+
+import com.Client.Client.OrderService.ClientTemplate;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
