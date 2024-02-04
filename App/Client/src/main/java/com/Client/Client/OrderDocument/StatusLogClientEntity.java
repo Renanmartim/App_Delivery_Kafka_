@@ -3,6 +3,8 @@ package com.Client.Client.OrderDocument;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+
 @Document
 public class StatusLogClientEntity {
 
@@ -10,6 +12,8 @@ public class StatusLogClientEntity {
     public String id;
 
     public String status;
+
+    public LocalDateTime time;
 
     public String getId() {
         return id;
@@ -27,9 +31,18 @@ public class StatusLogClientEntity {
         this.status = status;
     }
 
-    public StatusLogClientEntity(String id, String status) {
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public StatusLogClientEntity(String id, String status, LocalDateTime time) {
         this.id = id;
         this.status = status;
+        this.time = time;
     }
 
     @Override
@@ -37,6 +50,7 @@ public class StatusLogClientEntity {
         return "StatusLogClientEntity{" +
                 "id='" + id + '\'' +
                 ", status='" + status + '\'' +
+                ", time=" + time +
                 '}';
     }
 }

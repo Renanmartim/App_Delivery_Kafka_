@@ -6,6 +6,8 @@ import com.Client.Client.Repository.StatusClientRepository;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,16 +15,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class ClientListenerImpl implements ClientListener {
 
-    private final ConcurrentHashMap<UUID, String> orderStatusMap;
-
     private StatusClientRepository statusClientRepository;
 
     private StatusLogClientEntity statusLogClientEntity;
 
     private boolean kafkaInstant = true;
 
-    public ClientListenerImpl(ConcurrentHashMap<UUID, String> orderStatusMap, StatusClientRepository statusClientRepository) {
-        this.orderStatusMap = orderStatusMap;
+    public ClientListenerImpl(StatusClientRepository statusClientRepository) {
         this.statusClientRepository = statusClientRepository;
     }
 
@@ -30,26 +29,29 @@ public class ClientListenerImpl implements ClientListener {
         kafkaInstant = true;
     }
 
-    @KafkaListener(topics = "client_topic", groupId = "my_status_group")
+    @KafkaListener(topics = "client_topic", groupId = "status_client")
     public void consumeOrderEvent(String recordValue) {
-        if (kafkaInstant) {
 
-            String[] parts = recordValue.split("\\|");
+        String[] parts = recordValue.split("\\|");
 
-            var eventNew = new StatusLogClientEntity(parts[0], parts[1]);
+        var dateStatus = parts[1];
 
-            statusClientRepository.save(eventNew);
+        int openParenIndex = dateStatus.indexOf('(');
+        int closeParenIndex = dateStatus.indexOf(')');
 
-            System.out.println(eventNew);
-        }
+        String status = dateStatus.substring(0, openParenIndex).trim();
+
+        String dateText = dateStatus.substring(openParenIndex + 1, closeParenIndex).trim();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime date = LocalDateTime.parse(dateText, formatter);
+
+        var eventNew = new StatusLogClientEntity(parts[0], status, date);
+
+        statusClientRepository.save(eventNew);
+
     }
 
-    public String getOrderStatus(String orderId) {
-        if (!orderStatusMap.isEmpty()) {
-            UUID uuidOrderId = UUID.fromString(orderId);
-            return orderStatusMap.getOrDefault(uuidOrderId, "None");
-        }
-        return "None";
-    }
 
 }

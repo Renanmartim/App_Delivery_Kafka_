@@ -7,5 +7,4 @@ public interface ClientListener {
 
     public void consumeOrderEvent(String recordValue);
 
-    public String getOrderStatus(String orderId);
 }
