@@ -1,6 +1,6 @@
 package com.Client.Client.OrderService.impl;
 
-import com.Client.Client.OrderDocument.StatusLogClientEntity;
+import com.Client.Client.OrderModel.StatusLogClientEntity;
 import com.Client.Client.OrderService.ClientListener;
 import com.Client.Client.Repository.StatusClientRepository;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -8,16 +8,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class ClientListenerImpl implements ClientListener {
 
     private StatusClientRepository statusClientRepository;
-
-    private StatusLogClientEntity statusLogClientEntity;
 
     private boolean kafkaInstant = true;
 

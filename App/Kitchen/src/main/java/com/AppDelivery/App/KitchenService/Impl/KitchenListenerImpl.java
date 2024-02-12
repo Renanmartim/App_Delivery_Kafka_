@@ -14,11 +14,11 @@ import java.util.Arrays;
 @Service
 public class KitchenListenerImpl implements KitchenListener {
 
-    public KitchenTemplate kitchenTemplate;
+    private KitchenTemplate kitchenTemplate;
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public KitchenListenerImpl(KafkaTemplate<String, Object> kafkaTemplate, KitchenTemplate kitchenTemplate) {
+    private KitchenListenerImpl(KafkaTemplate<String, Object> kafkaTemplate, KitchenTemplate kitchenTemplate) {
 
         this.kitchenTemplate = kitchenTemplate;
         this.kafkaTemplate = kafkaTemplate;

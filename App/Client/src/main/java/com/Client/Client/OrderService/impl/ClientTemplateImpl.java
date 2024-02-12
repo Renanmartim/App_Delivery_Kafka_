@@ -8,9 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
 @Service
 @Getter
 @Setter
@@ -25,7 +22,7 @@ public class ClientTemplateImpl implements ClientTemplate {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public ClientTemplateImpl(KafkaTemplate<String, Object> kafkaTemplate, ConcurrentHashMap<UUID, String> orderStatusMap) {
+    public ClientTemplateImpl(KafkaTemplate<String, Object> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 

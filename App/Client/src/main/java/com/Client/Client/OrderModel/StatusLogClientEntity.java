@@ -1,4 +1,4 @@
-package com.Client.Client.OrderDocument;
+package com.Client.Client.OrderModel;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
