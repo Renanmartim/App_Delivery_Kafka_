@@ -1,15 +1,13 @@
-package com.AppDelivery.App.KitchenService.Impl;
+package com.AppDelivery.App.Service.Impl;
 
-import com.AppDelivery.App.KitchenService.KitchenListener;
-import com.AppDelivery.App.KitchenService.KitchenTemplate;
-import org.springframework.beans.factory.annotation.Value;
+import com.AppDelivery.App.Service.KitchenListener;
+import com.AppDelivery.App.Service.KitchenTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 
 @Service
 public class KitchenListenerImpl implements KitchenListener {

@@ -1,11 +1,9 @@
-package com.Delivery.Delivery.DeliveryService.Impl;
+package com.Delivery.Delivery.Service.Impl;
 
-import com.Delivery.Delivery.DeliveryService.DeliveryListener;
-import com.Delivery.Delivery.DeliveryService.Impl.DeliveryTemplateImpl;
+import com.Delivery.Delivery.Service.DeliveryListener;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;

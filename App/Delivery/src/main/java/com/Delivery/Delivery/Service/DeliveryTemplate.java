@@ -1,4 +1,4 @@
-package com.Delivery.Delivery.DeliveryService;
+package com.Delivery.Delivery.Service;
 
 public interface DeliveryTemplate {
 

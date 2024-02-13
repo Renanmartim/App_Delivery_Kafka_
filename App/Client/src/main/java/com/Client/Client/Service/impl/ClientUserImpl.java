@@ -1,7 +1,7 @@
-package com.Client.Client.OrderService.impl;
+package com.Client.Client.Service.impl;
 
-import com.Client.Client.OrderModel.Client;
-import com.Client.Client.OrderService.ClientUser;
+import com.Client.Client.Model.ClientModel;
+import com.Client.Client.Service.ClientUser;
 import com.Client.Client.Repository.ClientRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,13 +16,13 @@ public class ClientUserImpl implements ClientUser {
     }
 
     @Override
-    public ResponseEntity<Client> register(Client client) {
+    public ResponseEntity<ClientModel> register(ClientModel client) {
         var startClient = clientRepository.save(client);
         return ResponseEntity.ok().body(startClient);
     }
 
     @Override
-    public ResponseEntity<String> modify(String id, Client client) {
+    public ResponseEntity<String> modify(String id, ClientModel client) {
 
         var startClient = clientRepository.findById(id);
 

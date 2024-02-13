@@ -1,10 +1,10 @@
-package com.Client.Client.OrderModel;
+package com.Client.Client.Model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("client_user")
-public class Client {
+public class ClientModel {
 
     @Id
     private String id;
@@ -33,7 +33,7 @@ public class Client {
         this.cep = cep;
     }
 
-    public Client(String id, String name, Long cep) {
+    public ClientModel(String id, String name, Long cep) {
         this.id = id;
         this.name = name;
         this.cep = cep;

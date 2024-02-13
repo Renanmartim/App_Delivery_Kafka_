@@ -1,6 +1,6 @@
-package com.AppDelivery.App.KitchenService.Impl;
+package com.AppDelivery.App.Service.Impl;
 
-import com.AppDelivery.App.KitchenService.KitchenTemplate;
+import com.AppDelivery.App.Service.KitchenTemplate;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

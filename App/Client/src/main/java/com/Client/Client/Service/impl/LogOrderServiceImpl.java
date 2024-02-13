@@ -1,7 +1,7 @@
-package com.Client.Client.OrderService.impl;
+package com.Client.Client.Service.impl;
 
-import com.Client.Client.OrderModel.StatusLogClientEntity;
-import com.Client.Client.OrderService.LogOrderService;
+import com.Client.Client.Model.StatusLogClientModel;
+import com.Client.Client.Service.LogOrderService;
 import com.Client.Client.Repository.StatusClientRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class LogOrderServiceImpl implements LogOrderService {
     @Override
     public ResponseEntity<String> takeStatus(String id) {
 
-        Optional<StatusLogClientEntity> client = statusClientRepository.findById(id);
+        Optional<StatusLogClientModel> client = statusClientRepository.findById(id);
 
         if(client.isPresent()){
             var myClientClass = client.get();

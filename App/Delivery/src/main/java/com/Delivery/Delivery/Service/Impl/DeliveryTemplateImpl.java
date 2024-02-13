@@ -1,12 +1,9 @@
-package com.Delivery.Delivery.DeliveryService.Impl;
+package com.Delivery.Delivery.Service.Impl;
 
-import com.Delivery.Delivery.DeliveryService.DeliveryTemplate;
+import com.Delivery.Delivery.Service.DeliveryTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class DeliveryTemplateImpl implements DeliveryTemplate {

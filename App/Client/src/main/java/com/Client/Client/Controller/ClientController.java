@@ -1,15 +1,17 @@
 package com.Client.Client.Controller;
 
-import com.Client.Client.OrderModel.Client;
-import com.Client.Client.OrderModel.Entity;
-import com.Client.Client.OrderService.ClientListener;
-import com.Client.Client.OrderService.ClientTemplate;
-import com.Client.Client.OrderService.ClientUser;
-import com.Client.Client.OrderService.LogOrderService;
+import com.Client.Client.Model.ClientModel;
+import com.Client.Client.Model.EntityModel;
+import com.Client.Client.Service.ClientListener;
+import com.Client.Client.Service.ClientTemplate;
+import com.Client.Client.Service.ClientUser;
+import com.Client.Client.Service.LogOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -36,7 +38,7 @@ public class ClientController {
     }
 
     @PostMapping
-    public String send(@RequestBody Entity entity) {
+    public String send(@RequestBody EntityModel entity) {
 
         var verifyId = clientUser.verifyClient(entity.id);
 
@@ -61,12 +63,19 @@ public class ClientController {
     }
 
     @PostMapping("user/create")
-    public ResponseEntity<Client> create(@RequestBody Client client){
-        return clientUser.register(client);
+    public ResponseEntity<ClientModel> create(@RequestBody ClientModel client){
+
+        var createUser = clientUser.register(client);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createUser.getBody())
+                .toUri();
+        return ResponseEntity.created(location).body(createUser.getBody());
     }
 
     @PostMapping("user/modify/{id}")
-    public ResponseEntity<String> modify(@PathVariable String id, @RequestBody Client client){
+    public ResponseEntity<String> modify(@PathVariable String id, @RequestBody ClientModel client){
         return clientUser.modify(id,client);
     }
 }

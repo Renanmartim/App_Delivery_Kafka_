@@ -1,4 +1,4 @@
-package com.Client.Client.OrderModel;
+package com.Client.Client.Model;
 
 
 import org.springframework.stereotype.Component;
@@ -6,13 +6,13 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class Entity {
+public class EntityModel {
 
     public String id;
     public String name;
     public String description;
 
-    public Entity() {
+    public EntityModel() {
         this.id = UUID.randomUUID().toString();
     }
 }

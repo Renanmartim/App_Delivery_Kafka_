@@ -1,7 +1,7 @@
-package com.Client.Client.OrderService.impl;
+package com.Client.Client.Service.impl;
 
-import com.Client.Client.OrderModel.StatusLogClientEntity;
-import com.Client.Client.OrderService.ClientListener;
+import com.Client.Client.Model.StatusLogClientModel;
+import com.Client.Client.Service.ClientListener;
 import com.Client.Client.Repository.StatusClientRepository;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,7 @@ public class ClientListenerImpl implements ClientListener {
 
         LocalDateTime date = LocalDateTime.parse(dateText, formatter);
 
-        var eventNew = new StatusLogClientEntity(parts[0], status, date);
+        var eventNew = new StatusLogClientModel(parts[0], status, date);
 
         statusClientRepository.save(eventNew);
 

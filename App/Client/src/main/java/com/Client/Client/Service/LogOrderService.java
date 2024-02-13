@@ -1,4 +1,4 @@
-package com.Client.Client.OrderService;
+package com.Client.Client.Service;
 
 import org.springframework.http.ResponseEntity;
 

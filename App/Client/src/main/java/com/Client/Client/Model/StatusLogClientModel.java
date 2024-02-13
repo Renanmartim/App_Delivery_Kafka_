@@ -1,4 +1,4 @@
-package com.Client.Client.OrderModel;
+package com.Client.Client.Model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
 @Document
-public class StatusLogClientEntity {
+public class StatusLogClientModel {
 
     @Id
     public String id;
@@ -39,7 +39,7 @@ public class StatusLogClientEntity {
         this.time = time;
     }
 
-    public StatusLogClientEntity(String id, String status, LocalDateTime time) {
+    public StatusLogClientModel(String id, String status, LocalDateTime time) {
         this.id = id;
         this.status = status;
         this.time = time;
