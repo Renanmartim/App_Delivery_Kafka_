@@ -27,7 +27,7 @@ public class KitchenController {
     }
 
     @PostMapping("/modify/{id}")
-    public ResponseEntity<String> modify(@PathVariable String id, @RequestBody MenuModel menuModel){
+    public ResponseEntity<MenuModel> modify(@PathVariable String id, @RequestBody MenuModel menuModel){
         return menuService.modify(id,menuModel);
     }
 

@@ -1,5 +1,6 @@
 package com.AppDelivery.App.Service.Impl;
 
+import com.AppDelivery.App.Exceptions.MenuIncorrectException;
 import com.AppDelivery.App.Model.MenuModel;
 import com.AppDelivery.App.Respository.MenuRepository;
 import com.AppDelivery.App.Service.MenuService;
@@ -11,7 +12,7 @@ import java.util.List;
 @Service
 public class MenuServiceImpl implements MenuService {
 
-    private MenuRepository menuRepository;
+    private final MenuRepository menuRepository;
 
     private MenuServiceImpl(MenuRepository menuRepository){
         this.menuRepository = menuRepository;
@@ -24,7 +25,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public ResponseEntity<String> modify(String id, MenuModel menuModel) {
+    public ResponseEntity<MenuModel> modify(String id, MenuModel menuModel) {
         var identify = menuRepository.findById(id);
         if(identify.isPresent()){
             var identifyClass = identify.get();
@@ -34,9 +35,9 @@ public class MenuServiceImpl implements MenuService {
 
             var identifyNew= menuRepository.save(identifyClass);
 
-            return ResponseEntity.ok().body("Menu Updated Successfully!");
+            return ResponseEntity.ok().body(identifyNew);
         }
-        return ResponseEntity.ok().body("Id Not Exists!");
+        throw new MenuIncorrectException("Id Is Not Currect!");
     }
 
     @Override

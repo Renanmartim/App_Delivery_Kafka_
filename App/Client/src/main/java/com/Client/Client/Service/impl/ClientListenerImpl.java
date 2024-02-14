@@ -12,17 +12,13 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class ClientListenerImpl implements ClientListener {
 
-    private StatusClientRepository statusClientRepository;
+    private final StatusClientRepository statusClientRepository;
 
-    private boolean kafkaInstant = true;
 
     public ClientListenerImpl(StatusClientRepository statusClientRepository) {
         this.statusClientRepository = statusClientRepository;
     }
 
-    public void enableKafkaInstant() {
-        kafkaInstant = true;
-    }
 
     @KafkaListener(topics = "client_topic", groupId = "status_client")
     public void consumeOrderEvent(String recordValue) {

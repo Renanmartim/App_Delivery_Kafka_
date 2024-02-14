@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class LogOrderServiceImpl implements LogOrderService {
 
-    private StatusClientRepository statusClientRepository;
+    private final StatusClientRepository statusClientRepository;
 
     private LogOrderServiceImpl (StatusClientRepository statusClientRepository){
         this.statusClientRepository = statusClientRepository;

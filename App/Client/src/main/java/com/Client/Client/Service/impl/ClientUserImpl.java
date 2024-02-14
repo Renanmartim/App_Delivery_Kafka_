@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ClientUserImpl implements ClientUser {
 
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
     private ClientUserImpl (ClientRepository clientRepository){
         this.clientRepository = clientRepository;

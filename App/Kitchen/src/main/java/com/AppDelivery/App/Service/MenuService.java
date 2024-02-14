@@ -9,7 +9,7 @@ public interface MenuService {
 
     public ResponseEntity<MenuModel> create(MenuModel menuModel);
 
-    public ResponseEntity<String> modify(String id, MenuModel menuModel);
+    public ResponseEntity<MenuModel> modify(String id, MenuModel menuModel);
 
     public ResponseEntity<List<MenuModel>> getAll();
 

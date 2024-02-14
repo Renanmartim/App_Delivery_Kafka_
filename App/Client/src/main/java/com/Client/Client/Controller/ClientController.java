@@ -22,17 +22,14 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class ClientController {
 
-    private ClientTemplate client;
+    private final ClientTemplate client;
 
-    private LogOrderService logOrderService;
+    private final LogOrderService logOrderService;
 
-    private ClientListener clientSubscriberimpl;
+    private final ClientUser clientUser;
 
-    private ClientUser clientUser;
+    private ClientController(ClientTemplate client, LogOrderService logOrderService, ClientUser clientUser){
 
-    private ClientController(ClientTemplate client, ClientListener clientSubscriberimpl, LogOrderService logOrderService, ClientUser clientUser){
-
-        this.clientSubscriberimpl = clientSubscriberimpl;
         this.client = client;
         this.clientUser = clientUser;
         this.logOrderService = logOrderService;
