@@ -22,38 +22,21 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class ClientController {
 
-    private final ClientTemplate client;
 
     private final LogOrderService logOrderService;
 
     private final ClientUser clientUser;
 
-    private ClientController(ClientTemplate client, LogOrderService logOrderService, ClientUser clientUser){
+    private ClientController(LogOrderService logOrderService, ClientUser clientUser){
 
-        this.client = client;
-        this.clientUser = clientUser;
         this.logOrderService = logOrderService;
+        this.clientUser = clientUser;
 
     }
 
     @PostMapping
     public String send(@RequestBody EntityModel entity) {
-
-        var verifyId = clientUser.verifyClient(entity.id);
-
-        if (verifyId) {
-
-            String orderForTopic = entity.id + " | " + entity.name + " ; " + entity.description + " : Send To Kitchen ";
-            LocalDateTime currentDateTime = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formattedDateTime = currentDateTime.format(formatter);
-            String clientmensage = entity.id + "|Send to Kitchen" + "(" + formattedDateTime + ")";
-            client.sendMensageKitchen(orderForTopic);
-            client.sendMensageClient(clientmensage);
-            return orderForTopic;
-        }
-
-        return "This Client Not Exists!";
+        return clientUser.sendMensage(entity);
     }
 
     @GetMapping("/status/{id}")

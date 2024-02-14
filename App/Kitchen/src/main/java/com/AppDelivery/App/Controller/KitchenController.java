@@ -42,7 +42,7 @@ public class KitchenController {
         return ResponseEntity.created(location).body(createdMenu.getBody());
     }
 
-    @PostMapping("/verify/{name}")
+    @GetMapping("/verify/{name}")
     public ResponseEntity<Boolean> modify(@PathVariable String name){
         var response = menuService.verifyMenuItem(name);
         return ResponseEntity.ok().body(response);
