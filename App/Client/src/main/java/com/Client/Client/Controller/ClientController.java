@@ -1,5 +1,6 @@
 package com.Client.Client.Controller;
 
+import com.Client.Client.Exceptions.InvalidCepException;
 import com.Client.Client.Model.ClientModel;
 import com.Client.Client.Model.EntityModel;
 import com.Client.Client.Service.ClientListener;
@@ -7,6 +8,7 @@ import com.Client.Client.Service.ClientTemplate;
 import com.Client.Client.Service.ClientUser;
 import com.Client.Client.Service.LogOrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -78,4 +80,5 @@ public class ClientController {
     public ResponseEntity<String> modify(@PathVariable String id, @RequestBody ClientModel client){
         return clientUser.modify(id,client);
     }
+
 }
