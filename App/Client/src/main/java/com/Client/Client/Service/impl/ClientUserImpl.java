@@ -1,9 +1,5 @@
 package com.Client.Client.Service.impl;
-
-import com.Client.Client.Exceptions.CpfAlreadyExistsException;
-import com.Client.Client.Exceptions.IdNotExistsException;
-import com.Client.Client.Exceptions.InvalidCepException;
-import com.Client.Client.Exceptions.NameDishNotFoundException;
+import com.Client.Client.Exceptions.*;
 import com.Client.Client.Model.ClientModel;
 import com.Client.Client.Model.EntityModel;
 import com.Client.Client.Service.ClientTemplate;
@@ -34,14 +30,58 @@ public class ClientUserImpl implements ClientUser {
         this.client = client;
     }
 
+    public static boolean validateCPF(long cpf) {
+
+        String cpfString = String.valueOf(cpf);
+
+        cpfString = cpfString.replaceAll("\\D", "");
+
+        if (cpfString.length() != 11) {
+            return false;
+        }
+
+        char firstDigit = cpfString.charAt(0);
+        boolean allSame = cpfString.chars().allMatch(digit -> digit == firstDigit);
+        if (allSame) {
+            return false;
+        }
+
+        if (!validateDigit(cpfString, 9)) {
+            return false;
+        }
+
+        if (!validateDigit(cpfString, 10)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static boolean validateDigit(String cpf, int position) {
+        int sum = 0;
+        for (int i = 0; i < position; i++) {
+            sum += (cpf.charAt(i) - '0') * (position + 1 - i);
+        }
+        int remainder = 11 - (sum % 11);
+        if (remainder >= 10) {
+            remainder = 0;
+        }
+        return (remainder == cpf.charAt(position) - '0');
+    }
     @Override
     public ResponseEntity<ClientModel> register(ClientModel client) {
 
-        var verifyCpf = clientRepository.findByCpf(client.getCpf());
-
-        if(verifyCpf.isPresent()){
+        if(clientRepository.findByCpf(client.getCpf()).isPresent()){
 
             throw new CpfAlreadyExistsException("The Cpf Already Exists In Database");
+
+        }
+
+        var validateCpf = validateCPF(client.getCpf());
+
+        if(!validateCPF(client.getCpf())){
+
+            throw new CpfAlreadyFormatException("The Cpf is not real!");
 
         }
 
@@ -126,7 +166,7 @@ public class ClientUserImpl implements ClientUser {
                 return orderForTopic;
             }
 
-            throw new NameDishNotFoundException("The name of the dish does not exist on the menu");
+            throw new NameDishNotFoundException("The name of the dish does not exist on the menu!");
 
         }
 

@@ -1,10 +1,7 @@
 package com.Client.Client.ControllerAdvice;
 
 import com.Client.Client.Dto.CustomErrorResponse;
-import com.Client.Client.Exceptions.CpfAlreadyExistsException;
-import com.Client.Client.Exceptions.IdNotExistsException;
-import com.Client.Client.Exceptions.InvalidCepException;
-import com.Client.Client.Exceptions.NameDishNotFoundException;
+import com.Client.Client.Exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,8 +34,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NameDishNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<CustomErrorResponse> handleInvalidCepExceptionId(NameDishNotFoundException ex) {
+    public ResponseEntity<CustomErrorResponse> handleInvalidCepExceptionName(NameDishNotFoundException ex) {
         CustomErrorResponse errorResponse = new CustomErrorResponse(400, ex.getMessage(), "Check the restaurant menu");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(CpfAlreadyFormatException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<CustomErrorResponse> handleInvalidCepExceptionCpfFormat(CpfAlreadyFormatException ex) {
+        CustomErrorResponse errorResponse = new CustomErrorResponse(400, ex.getMessage(), "Enter a valid CPF");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 }
