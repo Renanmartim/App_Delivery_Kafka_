@@ -18,3 +18,12 @@ server:
 
 
 
+api:
+  security:
+    token:
+      secret: 1e4c708f984a9ab77331a5e516399f45fc81a8f66519b8f6e477e3e7a13d2cb9
+
+
+
+
+

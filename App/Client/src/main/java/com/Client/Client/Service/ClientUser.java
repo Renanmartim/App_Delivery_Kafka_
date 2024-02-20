@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface ClientUser {
 
-    public ResponseEntity<ClientModel> register(ClientModel client);
+    public ResponseEntity register(ClientModel client);
 
     public ResponseEntity<String> modify(String id, ClientModel client);
 

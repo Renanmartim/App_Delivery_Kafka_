@@ -1,6 +1,7 @@
 package com.Client.Client.Model;
 
 import com.Client.Client.Dto.UserAdress;
+import com.Client.Client.Dto.UserLogin;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,6 +16,8 @@ public class ClientModel {
     private Long cpf;
 
     private UserAdress userAdress;
+
+    private UserLogin userLoginModel;
 
     public String getId() {
         return id;
@@ -44,10 +47,19 @@ public class ClientModel {
         this.userAdress = userAdress;
     }
 
-    public ClientModel(String name, Long cpf, UserAdress userAdress) {
+    public UserLogin getUserLoginModel() {
+        return userLoginModel;
+    }
+
+    public void setUserLoginModel(UserLogin userLoginModel) {
+        this.userLoginModel = userLoginModel;
+    }
+
+    public ClientModel(String name, Long cpf, UserAdress userAdress, UserLogin userLoginModel) {
         this.name = name;
         this.cpf = cpf;
         this.userAdress = userAdress;
+        this.userLoginModel = userLoginModel;
     }
 
     @Override
@@ -57,6 +69,7 @@ public class ClientModel {
                 ", name='" + name + '\'' +
                 ", cpf=" + cpf +
                 ", userAdress=" + userAdress +
+                ", userLoginModel=" + userLoginModel +
                 '}';
     }
 }

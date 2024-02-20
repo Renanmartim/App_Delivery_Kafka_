@@ -1,6 +1,15 @@
 package com.Client.Client.Service.impl;
+import com.Client.Client.Config.TokenService;
+import com.Client.Client.Dto.UserLogin;
 import com.Client.Client.Exceptions.*;
 import com.Client.Client.Model.ClientModel;
+import com.Client.Client.Repository.UserLoginRepository;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import com.Client.Client.Model.EntityModel;
 import com.Client.Client.Service.ClientTemplate;
 import com.Client.Client.Service.ClientUser;
@@ -8,6 +17,8 @@ import com.Client.Client.Repository.ClientRepository;
 import com.Client.Client.Service.LogOrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -20,6 +31,15 @@ import java.time.format.DateTimeFormatter;
 public class ClientUserImpl implements ClientUser {
 
     private final ClientTemplate client;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserLoginRepository userLoginRepository;
 
 
     private final ClientRepository clientRepository;
@@ -69,7 +89,11 @@ public class ClientUserImpl implements ClientUser {
         return (remainder == cpf.charAt(position) - '0');
     }
     @Override
-    public ResponseEntity<ClientModel> register(ClientModel client) {
+    public ResponseEntity register(ClientModel client) {
+
+        if(clientRepository.findByEmailExist(client.getUserLoginModel().getEmail()).isPresent()){
+            throw new EmailAlreadyExistsException("The Email Already Exists In Database");
+        }
 
         if(clientRepository.findByCpf(client.getCpf()).isPresent()){
 
@@ -95,7 +119,12 @@ public class ClientUserImpl implements ClientUser {
 
                 var startClient = clientRepository.save(client);
 
-                return ResponseEntity.ok().body(startClient);
+                System.out.println(client.getUserLoginModel().getUsername());
+                System.out.println(client.getUserLoginModel().getPassword());
+
+                var keySecret = createUserLogin(client);
+
+                return ResponseEntity.ok().body(keySecret);
 
         } catch (HttpClientErrorException.NotFound ex) {
 
@@ -123,6 +152,7 @@ public class ClientUserImpl implements ClientUser {
             clientObject.setUserAdress(client.getUserAdress());
             clientObject.setCpf(client.getCpf());
             clientObject.setName(client.getName());
+            clientObject.setUserLoginModel(client.getUserLoginModel());
 
             clientRepository.save(clientObject);
 
@@ -171,5 +201,17 @@ public class ClientUserImpl implements ClientUser {
         }
 
         throw new IdNotExistsException("Id Not Exists!");
+    }
+
+    public ResponseEntity createUserLogin(ClientModel client){
+
+        if(this.userLoginRepository.findByEmail(client.getUserLoginModel().getPassword()) != null) return ResponseEntity.badRequest().build();
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(client.getUserLoginModel().getPassword());
+        UserLogin newUser = new UserLogin(client.getUserLoginModel().getEmail(), encryptedPassword);
+
+        this.userLoginRepository.save(newUser);
+
+        return ResponseEntity.ok().build();
     }
 }

@@ -45,4 +45,11 @@ public class GlobalExceptionHandler {
         CustomErrorResponse errorResponse = new CustomErrorResponse(400, ex.getMessage(), "Enter a valid CPF");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<CustomErrorResponse> handleInvalidCepExceptionEmail(EmailAlreadyExistsException ex) {
+        CustomErrorResponse errorResponse = new CustomErrorResponse(400, ex.getMessage(), "Enter other email");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
 }
