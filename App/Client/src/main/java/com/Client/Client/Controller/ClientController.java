@@ -3,6 +3,7 @@ package com.Client.Client.Controller;
 import com.Client.Client.Config.TokenService;
 import com.Client.Client.Dto.UserLogin;
 import com.Client.Client.Repository.UserLoginRepository;
+import com.Client.Client.Response.ResponseCreate;
 import jakarta.validation.Valid;
 import com.Client.Client.Exceptions.InvalidCepException;
 import com.Client.Client.Model.ClientModel;
@@ -64,7 +65,7 @@ public class ClientController {
     }
 
     @PostMapping("user/create")
-    public ResponseEntity create(@RequestBody ClientModel client){
+    public ResponseEntity<ResponseCreate> create(@RequestBody ClientModel client){
 
         return clientUser.register(client);
     }

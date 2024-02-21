@@ -4,6 +4,7 @@ import com.Client.Client.Dto.UserLogin;
 import com.Client.Client.Exceptions.*;
 import com.Client.Client.Model.ClientModel;
 import com.Client.Client.Repository.UserLoginRepository;
+import com.Client.Client.Response.ResponseCreate;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import io.jsonwebtoken.Jwts;
@@ -89,7 +90,7 @@ public class ClientUserImpl implements ClientUser {
         return (remainder == cpf.charAt(position) - '0');
     }
     @Override
-    public ResponseEntity register(ClientModel client) {
+    public ResponseEntity<ResponseCreate> register(ClientModel client) {
 
         if(clientRepository.findByEmailExist(client.getUserLoginModel().getEmail()).isPresent()){
             throw new EmailAlreadyExistsException("The Email Already Exists In Database");
@@ -122,9 +123,11 @@ public class ClientUserImpl implements ClientUser {
                 System.out.println(client.getUserLoginModel().getUsername());
                 System.out.println(client.getUserLoginModel().getPassword());
 
-                var keySecret = createUserLogin(client);
+                createUserLogin(client);
 
-                return ResponseEntity.ok().body(keySecret);
+                var userResponse = new ResponseCreate(client.getName(), client.getUserLoginModel().getEmail());
+
+                return ResponseEntity.ok().body(userResponse);
 
         } catch (HttpClientErrorException.NotFound ex) {
 
