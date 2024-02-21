@@ -14,7 +14,7 @@ public class AuthorizationService implements UserDetailsService {
 
     UserLoginRepository userLoginRepository;
 
-    private AuthorizationService (UserLoginRepository userLoginRepository){
+    public AuthorizationService (UserLoginRepository userLoginRepository){
         this.userLoginRepository = userLoginRepository;
     }
     @Override

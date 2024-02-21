@@ -23,7 +23,7 @@ public class SecurityConfigurations {
 
     SecurityFilter securityFilter;
 
-    private SecurityConfigurations(SecurityFilter securityFilter){
+    public SecurityConfigurations(SecurityFilter securityFilter){
         this.securityFilter=securityFilter;
     }
 
