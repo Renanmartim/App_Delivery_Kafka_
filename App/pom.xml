@@ -17,7 +17,8 @@
 		<module>Client</module>
 		<module>Kitchen</module>
 		<module>Delivery</module>
-	</modules>
+        <module>Payment</module>
+    </modules>
 
 	<properties>
 		<java.version>17</java.version>
