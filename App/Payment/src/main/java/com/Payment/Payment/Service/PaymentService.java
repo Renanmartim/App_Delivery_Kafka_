@@ -9,5 +9,5 @@ public interface PaymentService {
 
     public Mono<CardModel> save(CardModel cardModel);
 
-    public Mono<String> payment(CardRequest cardRequest);
+    public Mono<Boolean> payment(CardRequest cardRequest);
 }

@@ -4,6 +4,7 @@ import com.Payment.Payment.Model.CardModel;
 import com.Payment.Payment.Repository.CardRepository;
 import com.Payment.Payment.Request.CardRequest;
 import com.Payment.Payment.Service.PaymentService;
+import org.slf4j.helpers.NOP_FallbackServiceProvider;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -24,7 +25,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Mono<String> payment(CardRequest cardRequest) {
+    public Mono<Boolean> payment(CardRequest cardRequest) {
         return cardRepository.findByNumber(cardRequest.getNumber())
                 .flatMap(cardResult -> {
                     if (cardResult != null &&
@@ -39,9 +40,9 @@ public class PaymentServiceImpl implements PaymentService {
                         cardResult.setUsage((int) (cardResult.getUsage() + value));
 
                         return cardRepository.save(cardResult)
-                                .thenReturn("Payment processed for card: " + cardRequest.getNumber());
+                                .thenReturn(Boolean.TRUE);
                     } else {
-                        return Mono.error(new RuntimeException("Card not found or data does not match"));
+                        return  Mono.just(Boolean.FALSE);
                     }
                 });
     }

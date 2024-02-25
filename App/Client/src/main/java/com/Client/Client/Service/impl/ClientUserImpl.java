@@ -1,5 +1,6 @@
 package com.Client.Client.Service.impl;
 import com.Client.Client.Config.TokenService;
+import com.Client.Client.Dto.CardPayment;
 import com.Client.Client.Dto.UserLogin;
 import com.Client.Client.Exceptions.*;
 import com.Client.Client.Model.ClientModel;
@@ -10,14 +11,13 @@ import com.auth0.jwt.algorithms.Algorithm;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import com.Client.Client.Model.EntityModel;
 import com.Client.Client.Service.ClientTemplate;
 import com.Client.Client.Service.ClientUser;
 import com.Client.Client.Repository.ClientRepository;
 import com.Client.Client.Service.LogOrderService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -120,9 +120,6 @@ public class ClientUserImpl implements ClientUser {
 
                 var startClient = clientRepository.save(client);
 
-                System.out.println(client.getUserLoginModel().getUsername());
-                System.out.println(client.getUserLoginModel().getPassword());
-
                 createUserLogin(client);
 
                 var userResponse = new ResponseCreate(client.getName(), client.getUserLoginModel().getEmail());
@@ -177,7 +174,7 @@ public class ClientUserImpl implements ClientUser {
     @Override
     public String sendMensage(EntityModel entity) {
 
-        var verifyId = this.verifyClient(entity.id);
+        var verifyId = this.verifyClient(entity.getId());
 
         if (verifyId) {
 
@@ -185,18 +182,42 @@ public class ClientUserImpl implements ClientUser {
 
             Boolean url = restTemplate.getForObject("http://localhost:8580/v1/verify/" + entity.getName(), Boolean.class);
 
-            System.out.println(url);
-
             if (Boolean.TRUE.equals(url)) {
 
-                String orderForTopic = entity.id + " | " + entity.name + " ; " + entity.description + " : Send To Kitchen ";
-                LocalDateTime currentDateTime = LocalDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                String formattedDateTime = currentDateTime.format(formatter);
-                String clientmensage = entity.id + "|Send to Kitchen" + "(" + formattedDateTime + ")";
-                client.sendMensageKitchen(orderForTopic);
-                client.sendMensageClient(clientmensage);
-                return orderForTopic;
+                String payment = "http://localhost:8989/payment/pay";
+
+                // Create your request body
+                CardPayment requestBody = new CardPayment(entity.getCardPayment().getName(), entity.getCardPayment().getNumber(), entity.getCardPayment().getMaturity(), entity.getCardPayment().getCvv(), entity.getCardPayment().getValue());
+
+                // Set headers if needed
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                // Add any other headers if needed
+
+                // Create the HTTP entity with headers and body
+                HttpEntity<CardPayment> requestEntity = new HttpEntity<>(requestBody, headers);
+
+                // Send the request
+                ResponseEntity<Boolean> responseEntity = restTemplate.exchange(payment, HttpMethod.POST, requestEntity, Boolean.class);
+
+                String responseBody = String.valueOf(responseEntity.getBody());
+
+                if(Boolean.parseBoolean(responseBody.trim()) == Boolean.TRUE) {
+
+                    // Handle the response
+
+                    String orderForTopic = entity.getId() + " | " + entity.getName() + " ; " + entity.getDescription() + " : Send To Kitchen ";
+                    LocalDateTime currentDateTime = LocalDateTime.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    String formattedDateTime = currentDateTime.format(formatter);
+                    String clientmensage = entity.getId() + "|Send to Kitchen" + "(" + formattedDateTime + ")";
+                    client.sendMensageKitchen(orderForTopic);
+                    client.sendMensageClient(clientmensage);
+                    return orderForTopic;
+                }
+
+                throw new PaymentException("Payment is not found!");
+
             }
 
             throw new NameDishNotFoundException("The name of the dish does not exist on the menu!");

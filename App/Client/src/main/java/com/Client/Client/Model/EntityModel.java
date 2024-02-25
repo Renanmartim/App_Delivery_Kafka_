@@ -1,6 +1,8 @@
 package com.Client.Client.Model;
 
 
+import com.Client.Client.Dto.CardPayment;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -8,9 +10,12 @@ import java.util.UUID;
 @Component
 public class EntityModel {
 
-    public String id;
-    public String name;
-    public String description;
+    private String id;
+    private String name;
+    private String description;
+
+    @JsonProperty("cardPayment")
+    private CardPayment cardPayment;
 
     public EntityModel() {
         this.id = UUID.randomUUID().toString();
@@ -38,6 +43,14 @@ public class EntityModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public CardPayment getCardPayment() {
+        return cardPayment;
+    }
+
+    public void setCardPayment(CardPayment cardPayment) {
+        this.cardPayment = cardPayment;
     }
 }
 

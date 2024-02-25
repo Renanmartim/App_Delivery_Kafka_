@@ -52,4 +52,11 @@ public class GlobalExceptionHandler {
         CustomErrorResponse errorResponse = new CustomErrorResponse(400, ex.getMessage(), "Enter other email");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
+
+    @ExceptionHandler(PaymentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<CustomErrorResponse> handleInvalidCepExceptionPayment(PaymentException ex) {
+        CustomErrorResponse errorResponse = new CustomErrorResponse(400, ex.getMessage(), "Your card is invalid!");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
 }

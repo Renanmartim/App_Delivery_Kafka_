@@ -26,16 +26,9 @@ public class PaymentController {
     }
 
     @PostMapping("/pay")
-    public Mono<String> pay(@RequestBody CardRequest cardRequest){
+    public Mono<Boolean> pay(@RequestBody CardRequest cardRequest){
 
         return paymentService.payment(cardRequest);
-
-    }
-
-    @GetMapping("/oi")
-    public Mono<String> test(){
-
-        return Mono.just("oi");
 
     }
 
