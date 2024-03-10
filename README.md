@@ -2,7 +2,7 @@
 
 
   <h1>RequestHttp App_Delivery_Kafka Documentation</h1>
-  ![Kafka_App drawio](https://github.com/Renanmartim/App_Delivery_Kafka_/assets/117313515/47a5828e-ecdc-45bd-89ff-f93f7610ff91)
+  ![Kafka_App drawio (3)](https://github.com/Renanmartim/App_Delivery_Kafka_/assets/117313515/1fa06c14-b5fa-4db4-9e7e-900c0d61ff43)
   <h2>Actors</h2>
     <ul>
         <li><strong>RequestHttp</strong>: This actor is responsible for handling HTTP requests and communicating with the <strong>MongoDb</strong> actor to perform database operations.</li>
