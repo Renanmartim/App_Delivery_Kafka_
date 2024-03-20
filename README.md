@@ -20,7 +20,7 @@
         <li><strong>MongoDb</strong>: This class implements the <strong>MongoDb</strong> actor. It is responsible for communicating with a MongoDB database and performing database operations.</li>
     </ul>
     <h2>Usage</h2>
-    <p>To use this project, you will need to start the <strong>RequestHttp</strong> actor and the <strong>MongoDb</strong> actor. You can then send HTTP requests to the <strong>RequestHttp</strong> actor to perform database operations.</p>
+    <p>To start, you need to log in to the endpoint "/v1/login", if you don't have a registration, do this in "/v1/user/create", after this step, take the JWT response and send it to "/v1/" via POST, It is important to send the user ID, name, description and cardPayment.</p>
     <p>For example, you can send a POST request to the <code>/v1</code> endpoint to create a new kitchen delivery. The request should include a JSON payload with the following format:</p>
     <pre><code>{
       "id": "65b5688efde0743b4e21",
