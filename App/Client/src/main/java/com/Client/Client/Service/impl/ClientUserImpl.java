@@ -112,7 +112,7 @@ public class ClientUserImpl implements ClientUser {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        String url = "https://brasilaberto.com/api/v1/zipcode/" + client.getUserAdress().getCep();
+        String url = "https://api.brasilaberto.com/v1/zipcode/" + client.getUserAdress().getCep();
 
         try {
 

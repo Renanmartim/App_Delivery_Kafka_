@@ -64,13 +64,13 @@ public class ClientController {
         return logOrderService.takeStatus(id);
     }
 
-    @PostMapping("user/create")
+    @PostMapping("/user/create")
     public ResponseEntity<ResponseCreate> create(@RequestBody ClientModel client){
 
         return clientUser.register(client);
     }
 
-    @PostMapping("user/modify/{id}")
+    @PostMapping("/user/modify/{id}")
     public ResponseEntity<String> modify(@PathVariable String id, @RequestBody ClientModel client){
         return clientUser.modify(id,client);
     }
